@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title data-i18n="page_title">SEO Analyzer</title>
+    <script>
+        (function () {
+            const saved = localStorage.getItem('theme');
+            const system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            const theme = saved === 'system' || !saved ? system : saved;
+            document.documentElement.classList.add(theme);
+            document.documentElement.dataset.theme = saved || 'system';
+        })();
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='i18n.js') }}" defer></script>
+</head>
+<!-- ====================================================================================================================== -->
+<body>
+    <div class="container">
+        <div class="panel">
+            <label>
+                <span data-i18n="label_language">label_language:</span>
+                <select id="language-selector" class="styled-select" name="lang">
+                </select>
+            </label>
+
+            <label>
+                <span data-i18n="label_theme">label_theme:</span>
+                <select id="theme-selector" class="styled-select">
+                    <option value="system" data-i18n="theme_system">theme_system</option>
+                    <option value="light" data-i18n="theme_light">theme_light</option>
+                    <option value="dark" data-i18n="theme_dark">theme_dark</option>
+                </select>
+            </label>
+        </div>
+<!-- ====================================================================================================================== -->
+        <div class="tabs">
+            <div class="tab active" data-method="url" >URL</div>
+            <div class="tab" data-method="file" data-i18n="tab_file">tab_file</div>
+            <div class="tab" data-method="json">JSON</div> 
+        </div>
+
+        <form id="analyze-form" enctype="multipart/form-data">
+            <input type="hidden" name="method" id="method" value="url" />
+            <div id="url-input">
+                <input type="text" name="url" class="input-small" placeholder="placeholder_url" data-i18n-placeholder="placeholder_url" />
+            </div>
+            <div id="file-input" class="hidden">
+                <input type="file" name="file" class="input-small" />
+            </div>
+            <div id="json-input" class="hidden">
+                <input type="file" name="jsonfile" accept=".json" class="input-small" />
+            </div>
+            <button style="margin-top: 10px;" type="submit" data-i18n="analyze_button">analyze_button</button>
+            <button type="button" id="download-json" class="btn btn-sm" style="margin-left: auto;">JSON</button>
+<!-- ====================================================================================================================== -->
+            <button style="margin-top: 10px;" type="button" class="accordion-button" aria-expanded="false">
+                <span data-i18n="criteria_title">criteria_title</span>
+            </button>
+            <div class="accordion-content" id="criteria-panel">
+                <ul>
+                    <li><label>
+                        <input type="checkbox" name="checks" value="precheck" checked /><span data-i18n="precheck_title">precheck_title</span>
+                    </label></li>
+                    <li><label>
+                        <input type="checkbox" name="checks" value="semantic" checked /><span data-i18n="semantic_title">semantic_title</span>
+                    </label>
+                    <div id="semantic-settings" class="hidden" style="margin-top: 10px;">
+                        <label for="max_words" style="display: block; margin-bottom: 5px;">
+                            <span data-i18n="max_keywords">max_keywords:</span><input type="number" id="max_words" name="max_words" min="1" max="100" value="20" />
+                        </label>
+                        <label for="max_bigrams" style="display: block; margin-bottom: 5px;">
+                            <span data-i18n="max_bigrams">max_bigrams:</span><input type="number" id="max_bigrams" name="max_bigrams" min="0" max="100" value="0" />
+                        </label>
+                    </div>
+                    </li>
+                    <li><label>
+                        <input type="checkbox" name="checks" value="user-semantic"/><span data-i18n="user_semantic_title">user_semantic_title</span>
+                    </label></li>
+                    <li><label>
+                        <input type="checkbox" name="checks" value="structure" checked /><span data-i18n="structure_title">structure_title</span>
+                    </label></li>
+                    <li><label>
+                        <input type="checkbox" name="checks" value="illegal-techniques" checked /><span data-i18n="technic_title">technic_title</span>
+                    </label></li>
+                    <li><label>
+                        <input type="checkbox" name="checks" value="mobile-adaptivity" checked /><span data-i18n="mobile_title">mobile_title</span>
+                    </label></li>
+                    <li><label>
+                        <input type="checkbox" name="checks" value="performance_speed" checked /><span data-i18n="performance_title">performance_title</span>
+                    </label></li>
+                    <li><label><input type="checkbox" name="checks" value="pagespeed_insights" id="chk_pagespeed" /><span data-i18n="pagespeed_insights_title">pagespeed_insights_title</span></label>
+                        <div id="pagespeed-settings" class="hidden" style="margin-top: 10px;">
+                            <label><input type="radio" name="pagespeed_strategy" value="mobile" checked /><span data-i18n="pagespeed_mobile">pagespeed_mobile</span>
+                            </label>
+                            <label style="margin-left: 10px;"><input type="radio" name="pagespeed_strategy" value="desktop" /><span data-i18n="pagespeed_desktop">pagespeed_desktop</span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div id="user-keywords-input" style="margin-top: 10px;" class="hidden">
+                <label for="user_keywords" data-i18n="semantic_enter_keywords" style="display: block; margin-bottom: 5px;">semantic_enter_keywords:</label>
+                <textarea name="user_keywords"
+                id="user_keywords"
+                rows="3"
+                placeholder="placeholder_user_semantic"
+                class="input-small" data-i18n-placeholder="placeholder_user_semantic"></textarea>
+            </div>
+
+        </form>
+<!-- ====================================================================================================================== -->
+        <button style="margin-top: 10px;" type="button" class="accordion-button" aria-expanded="false">
+            <span data-i18n="results_title">results_title</span>
+        </button>
+        <div class="accordion-content hidden" id="results"></div>
+<!-- ====================================================================================================================== -->
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
