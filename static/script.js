@@ -224,11 +224,12 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
                 html += `<li data-i18n="recommend_density_ok">recommend_density_ok</li>`;
         }
         
+        const avg = parseFloat(metrics.summary.density_avg);
         html += `<p><strong data-i18n="average_density">average_density</strong> ${metrics.summary.density_avg}%</p>`;
-            if (metrics.summary.density_avg > 5) {
+            if (avg > 5) {
                 html += `<li data-i18n="recommend_overused">recommend_overused</li>`;
             }
-                else if (metrics.summary.density_avg < 1) {
+                else if (avg < 1) {
                     html += `<li data-i18n="recommend_underused">recommend_underused</li>`;
                 }
                 else {

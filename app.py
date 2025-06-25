@@ -18,7 +18,6 @@ from urllib.request import urlopen
 
 app = Flask(__name__)
 
-
 # ===============================================================================================
 @app.route("/langs")
 def get_languages():
@@ -36,7 +35,6 @@ def get_languages():
             except:
                 langs.append({"code": code, "label": code.upper()})
     return jsonify(langs)
-
 
 # ===============================================================================================
 def extract_html(req, method):
@@ -74,7 +72,6 @@ def precheck_module(html):
     description = desc_tag["content"].strip() if desc_tag else "No description"
 
     return {"title": title, "description": description}
-
 
 # ===============================================================================================
 loaded_pipelines = {}
@@ -153,7 +150,6 @@ def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
         "s-error": ""
     }
 
-
 # ===============================================================================================
 def compare_with_target_semantics(analysis_result, user_target_keywords):
     if not user_target_keywords:
@@ -213,7 +209,6 @@ def compare_with_target_semantics(analysis_result, user_target_keywords):
         "error_i18n": ""
     }
 
-
 # ===============================================================================================
 def semantics_analys(semantic_result):
     words = semantic_result.get("words", [])
@@ -255,7 +250,7 @@ def semantics_analys(semantic_result):
             "recommendation_key": rec
         })
 
-    density_avg = round(sum(k["density"] for k in keywords) / len(keywords), 2)
+    density_avg = sum(k["density"] for k in keywords) / len(keywords), 2
 
     return {
         "keywords": keywords,
@@ -579,7 +574,6 @@ def analyze_html_structure(html):
     }
     return result
 
-
 # ===============================================================================================
 def check_content_order(html):
     soup = BeautifulSoup(html, "html.parser")
@@ -829,6 +823,7 @@ def analyze_mobile_adaptivity(html):
     result["has_horizontal_scroll_risk"] = scroll_risk
 
     return result
+
 # ===============================================================================================
 def analyze_load_speed(url):
     result = {

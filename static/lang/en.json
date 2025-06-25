@@ -14,7 +14,7 @@
   "analyze_button": "Analyze",
 
   "criteria_title": "Analysis Criteria",
-  "precheck_title": "Preliminary Check",
+  "precheck_title": "Title/Description/Error",
   "semantic_title": "Semantic Core",
   "user_semantic_title": "User-defined Core",
   "structure_title": "HTML Structure",
@@ -34,7 +34,7 @@
 
   "result_title": "Title:",
   "result_description": "Description:",
-  "result_error": "Error:",
+
   "analyse_lang": "Analysis language:",
   "keyword_count": "Keyword count:",
   "semantic_keywords": "Top keywords:",
