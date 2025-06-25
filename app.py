@@ -97,23 +97,19 @@ def get_pipeline(lang):
 # Basic analysis function
 def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
     soup = BeautifulSoup(html, "html.parser")
-
-    main = soup.find("main")
-    if main:
-        text = main.get_text(separator=" ", strip=True)
-    else:
-        text = soup.get_text(separator=" ", strip=True)
-
+    text = soup.get_text(separator=" ", strip=True)
+    
+    #Clearing text
     text = text.lower()
     text = re.sub(r"[^a-zA-Zа-яА-ЯёЁіІїЇєЄ0-9\s]", " ", text)
     text = re.sub(r"\d+", "", text)
     text = re.sub(r"\s+", " ", text).strip()
 
-    if not lang:
-        try:
-            lang = detect(text[:200])
-        except:
-            lang = "en"
+    #Detect language if not specified
+    try:
+        lang = detect(text[:200])
+    except:
+        lang = "en"
 
     stop_words = get_stopwords(lang)
 
@@ -127,6 +123,7 @@ def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
             "error": f"Ошибка при лемматизации: {str(e)}"
         }
 
+    #Extraction of meaningful lemmas
     CONTENT_POS = {"NOUN", "PROPN", "VERB", "ADJ", "ADV"}
     lemmas = [
         word.lemma.lower()
@@ -135,24 +132,22 @@ def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
         if word.upos in CONTENT_POS and word.lemma.lower() not in stop_words and len(word.lemma) > 2
     ]
 
+    #Frequency analysis
     word_freq = Counter(lemmas)
     most_common_words = word_freq.most_common(max_words)
 
-    bigrams = zip(lemmas, list(lemmas)[1:])
+    bigrams = zip(lemmas, islice(lemmas, 1, None))
     bigram_freq = Counter([" ".join(pair) for pair in bigrams])
     most_common_bigrams = bigram_freq.most_common(max_bigrams)
 
     return {
         "title": lang.upper(),
-        "description": sum(word_freq.values()),
+        "description": len(word_freq),  # число уникальных ключевых слов
+        "total_words": len(lemmas),     # общее число лемм
         "words": most_common_words,
         "bigrams": most_common_bigrams,
         "s-error": ""
     }
-
-
-
-
 
 # ===============================================================================================
 def compare_with_target_semantics(analysis_result, user_target_keywords):
@@ -216,14 +211,14 @@ def compare_with_target_semantics(analysis_result, user_target_keywords):
 # ===============================================================================================
 def semantics_analys(semantic_result):
     words = semantic_result.get("words", [])
-    total = sum(count for _, count in words)
+    total = semantic_result.get("total_words", 1)  # общее число слов в тексте
 
     if total == 0:
         return {
             "keywords": [],
             "recommendations": [],
             "summary": {
-                "density_avgdensity_avg": 0,
+                "density_avg": 0,
                 "overused": 0,
                 "underused": 0
             }
@@ -234,8 +229,8 @@ def semantics_analys(semantic_result):
     underused = 0
 
     for word, count in words:
-        density = round((count / total) * 100, 2)  #%
-        nausea = round(count ** 0.5, 2)            
+        density = round((count / total) * 100, 2)  # % от всех слов
+        nausea = round(count ** 0.5, 2)
 
         if density > 5:
             rec = "keyword_overused"
@@ -254,7 +249,7 @@ def semantics_analys(semantic_result):
             "recommendation_key": rec
         })
 
-    density_avg = sum(k["density"] for k in keywords) / len(keywords), 2
+    density_avg = round(sum(k["density"] for k in keywords) / len(keywords), 2)
 
     return {
         "keywords": keywords,
@@ -265,6 +260,7 @@ def semantics_analys(semantic_result):
             "underused": underused
         }
     }
+
 
 
 # ===============================================================================================

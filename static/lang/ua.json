@@ -75,9 +75,9 @@
   "structure_head_keywords_ok": "Meta Keywords присутніℹ️",
   "structure_head_keywords_missing": "Meta Keywords відсутніℹ️",
   "structure_head_robots_ok": "Meta Robots присутній✅",
-  "structure_head_robots_missing": "Meta Robots відсутній❗",
+  "structure_head_robots_missing": "Meta Robots відсутнійℹ️	",
   "structure_head_canonical_ok": "Canonical присутній✅",
-  "structure_head_canonical_missing": "Canonical відсутній❗",
+  "structure_head_canonical_missing": "Canonical відсутнійℹ️",
   "structure_head_robots_directives": "Meta Robots директивиℹ️",
 
   "head_robots_noindex": "Містить noindexℹ️",

@@ -77,7 +77,7 @@
   "structure_head_robots_ok": "Meta Robots is present✅",
   "structure_head_robots_missing": "Meta Robots is missingℹ️",
   "structure_head_canonical_ok": "Canonical is present✅",
-  "structure_head_canonical_missing": "Canonical is missing❗",
+  "structure_head_canonical_missing": "Canonical is missingℹ️",
   "structure_head_robots_directives": "Meta Robots directivesℹ️",
 
   "head_robots_noindex": "Contains noindexℹ️",

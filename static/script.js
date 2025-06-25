@@ -111,7 +111,7 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
         html += `<h3 data-i18n="semantic_title">semantic_title</h3>`;
 
         if (sem.description) {
-            html += `<p><span data-i18n="analyse_lang"></span> <strong>${sem.title}</strong>; <span data-i18n="keyword_count"></span> <span>${sem.description}</span></p>`;
+            html += `<p><span data-i18n="analyse_lang"></span> <strong>${sem.title}</strong>; <span data-i18n="keyword_count"></span> <span>${sem.total_words}</span></p>`;
         }
 
         if (sem.words && sem.words.length > 0) {
@@ -283,7 +283,9 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
         html += `<details><summary style="font-size:1em; font-weight:bold;" data-i18n="structure_headings">structure_headings</summary>  `;
         const hcounts = Object.entries(struct.headings.count).map(([tag, count]) => `${tag.toUpperCase()}: ${count}`).join(', ');
         html += `<ul><li><strong data-i18n="structure_headings_count">structure_headings_count</strong> ${hcounts}</li>`;
-
+        if (!struct.headings.has_h1) {
+            html += `<li><span class="warning" data-i18n="structure_headings_no_h1">structure_headings_no_h1</span></li>`;
+        }
         html += ``;
         
 // several h1
