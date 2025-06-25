@@ -29,12 +29,12 @@ const methodInput = document.getElementById("method");
 
 tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-        // Убираем активный класс со всех табов
+        //remove active from all
         tabs.forEach((t) => t.classList.remove("active"));
-        // Добавляем активный класс на текущий таб
+        // add active to current tab
         tab.classList.add("active");
 
-        // По значению data-method показываем нужный блок и меняем метод
+        // toggle method according the data-method 
         if (tab.dataset.method === "url") {
             urlInput.classList.remove("hidden");
             fileInput.classList.add("hidden");
@@ -53,7 +53,6 @@ tabs.forEach((tab) => {
         }
     });
 });
-
 // ===========================================================================================================
 // Accordeon
 document.querySelectorAll(".accordion-button").forEach(button => {
@@ -65,35 +64,31 @@ document.querySelectorAll(".accordion-button").forEach(button => {
         content.classList.toggle("open");
     });
 });
-
 // ===========================================================================================================
 // Submit
 document.getElementById("analyze-form").addEventListener("submit", async e => {
     e.preventDefault();
     const form = e.target;
-    const method = form.querySelector("#method").value; // 'url', 'file' или 'json'
+    const method = form.querySelector("#method").value; // 'url', 'file', 'json'
     const formData = new FormData(form);
     const results = document.getElementById("results");
     results.classList.remove("hidden");
     let html = "";
-
-    
     
         if (method === "json") {
-            // Отправляем JSON-файл на /upload-json
+            // send JSON /upload-json
             res = await fetch("/upload-json", {
                 method: "POST",
                 body: formData
             });
         } else {
-            // Для url или file вызываем /analyze
+            // foe url or file call /analyze
             res = await fetch("/analyze", {
                 method: "POST",
                 body: formData
             });
         }
         data = await res.json();
-        
         
     if (data.title || data.description) {
         html += `<h3 data-i18n="precheck_title">Pre-check:</h3>`;
@@ -103,7 +98,6 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
     if (data.error) {
         html += `<p style="color:red"><span data-i18n="result_error">Err</span>${data.error}</p>`;
     }
-
 // ====== SEMANTIC CORE ======
 // ===========================================================================================================
     if (data.checks && data.checks.semantic) {
@@ -133,7 +127,6 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
             html += `</ul></details>`;
         }
     }
-
     
     if (data.checks && data.checks["user-semantic"]) {
         const userSemantic = data.checks["user-semantic"];
@@ -238,7 +231,6 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
 
         html += `</ul></details>`;
     }
-    
 // ===========================================================================================================    
     function escapeHtml(text) {
         const map = {
@@ -524,7 +516,7 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
             return 'performance_rating_bad';
         }
         html += `<details open><summary style="font-size:1em; font-weight:bold;" data-i18n="performance_title">performance_title</summary><ul>`;
-        // TTFB (секунды)
+        // TTFB (Seconds)
             html += `<li><span data-i18n="performance_ttfb">TTFB: </span><strong>${perf.ttfb !== null ? perf.ttfb.toFixed(3) + ' sec' : 'no data'}</strong> — <span data-i18n="${getRating(perf.ttfb * 1000, {good: 500, improve: 800})}">performance_rating_no_data</span></li>`;
         // load time (Seconds)
             html += `<li><span data-i18n="performance_load_time">performance_load_time</span><strong>${perf.load_time !== null ? perf.load_time.toFixed(3) + ' sec' : 'no data'}</strong> — <span data-i18n="${getRating(perf.load_time, {good: 2, improve: 4})}">performance_rating_no_data</span></li>`;
@@ -545,7 +537,7 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
         const metrics = api.metrics || {};
         html += `<details open><summary style="font-size:1em; font-weight:bold;" data-i18n="pagespeed_title">PageSpeed Insights (${api.strategy})</summary><ul>`;
         // Performance score (general mark)
-            html += `<li><span data-i18n="pagespeed_performance_score">Performance score: </span><strong>${api.performance_score !== null ? api.performance_score : 'нет данных'}</strong></li>`;
+            html += `<li><span data-i18n="pagespeed_performance_score">Performance score: </span><strong>${api.performance_score !== null ? api.performance_score : 'no data'}</strong></li>`;
         // Metrics with display_value and score
         const keys = [
             { key: 'first-contentful-paint', label: 'pagespeed_fcp' },
@@ -577,7 +569,7 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
     
     // re-translate
     if (typeof applyTranslations === "function") {
-        applyTranslations();  // <-- вызов из i18n.js
+        applyTranslations();
     }
 });
 

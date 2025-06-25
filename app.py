@@ -120,7 +120,7 @@ def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
         return {
             "title": "",
             "description": "",
-            "error": f"Ошибка при лемматизации: {str(e)}"
+            "error": f": {str(e)}"
         }
 
     #Extraction of meaningful lemmas
@@ -142,8 +142,8 @@ def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
 
     return {
         "title": lang.upper(),
-        "description": len(word_freq),  # число уникальных ключевых слов
-        "total_words": len(lemmas),     # общее число лемм
+        "description": len(word_freq),  # Unique lemm amount
+        "total_words": len(lemmas),     # General lemms
         "words": most_common_words,
         "bigrams": most_common_bigrams,
         "s-error": ""
@@ -211,7 +211,7 @@ def compare_with_target_semantics(analysis_result, user_target_keywords):
 # ===============================================================================================
 def semantics_analys(semantic_result):
     words = semantic_result.get("words", [])
-    total = semantic_result.get("total_words", 1)  # общее число слов в тексте
+    total = semantic_result.get("total_words", 1)  # total word count
 
     if total == 0:
         return {
@@ -229,7 +229,7 @@ def semantics_analys(semantic_result):
     underused = 0
 
     for word, count in words:
-        density = round((count / total) * 100, 2)  # % от всех слов
+        density = round((count / total) * 100, 2)  # % from all
         nausea = round(count ** 0.5, 2)
 
         if density > 5:
@@ -260,8 +260,6 @@ def semantics_analys(semantic_result):
             "underused": underused
         }
     }
-
-
 
 # ===============================================================================================
 def find_line_number(html, snippet):
@@ -320,8 +318,6 @@ def analyze_html_structure(html):
         checks["nosnippet"] = False
 
     result["head"]["checks"] = checks
-
-
 
     # HEADINGS
     heading_tags = soup.find_all(re.compile(r"h[1-6]"))
@@ -444,7 +440,6 @@ def analyze_html_structure(html):
                 warnings.append(f"multiple_footer_in_{sec_tag}")
 
     result["semantics_warnings"] = warnings
-
 
     # === LINKS ===
     links = soup.find_all("a")
@@ -882,12 +877,12 @@ def analyze_load_speed(url):
 # ===============================================================================================
 def fetch_pagespeed_insights(url, strategy) -> dict:
     """
-    Запрашивает данные PageSpeed Insights API.
+    PageSpeed Insights API.
 
-    :param api_key: Ваш API-ключ Google.
-    :param url: URL страницы для анализа.
-    :param strategy: "mobile" или "desktop" (по умолчанию mobile).
-    :return: словарь с результатами API.
+    :param api_key: your API-key Google.
+    :param url: URL page for analysis.
+    :param strategy: "mobile" or "desktop"
+    :return: dictionary from API.
     """
     endpoint = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
     params = {
@@ -952,7 +947,7 @@ def analyze():
         method = request.form.get("method")
         checks = request.form.getlist("checks")
 
-        html = extract_html(request, method)  # Эта функция уже у тебя есть
+        html = extract_html(request, method)
 
         if "precheck" in checks:
             result.update(precheck_module(html))
