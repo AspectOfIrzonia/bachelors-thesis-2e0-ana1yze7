@@ -101,7 +101,7 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
         html += `<p><strong data-i18n="result_description">Description:</strong> ${data.description}</p>`;
     }
     if (data.error) {
-        html += `<p style="color:red" data-i18n="result_error">${data.error}</p>`;
+        html += `<p style="color:red"><span data-i18n="result_error">Err</span>${data.error}</p>`;
     }
 
 // ====== SEMANTIC CORE ======
@@ -427,30 +427,36 @@ document.getElementById("analyze-form").addEventListener("submit", async e => {
         html += `<details><summary style="font-size:1em; font-weight:bold;" data-i18n="structure_content_order">Content Order</summary><ul>`;
 
         // H1
-            html += `<li>`;
-            html += `<span data-i18n="${co.h1_found ? 'content_order_h1_ok' : 'content_order_h1_missing'}"></span>`;
-            html += co.h1_found ? ` (позиция: ${co.h1_position})` : '';
-            html += `</li>`;
+        html += `<li>`;
+        html += `<span data-i18n="${co.h1_found ? 'content_order_h1_ok' : 'content_order_h1_missing'}"></span>`;
+        if (co.h1_found) html += ` <span><span data-i18n="position_prefix">Position:</span> ${co.h1_position}</span>`;
+        html += `</li>`;
 
         // Text
-            html += `<li>`;
-            html += `<span data-i18n="${co.text_found ? 'content_order_text_ok' : 'content_order_text_missing'}"></span>`;
-            html += co.text_found ? ` (позиция: ${co.text_position})` : '';
-            html += `</li>`;
+        html += `<li>`;
+        html += `<span data-i18n="${co.text_found ? 'content_order_text_ok' : 'content_order_text_missing'}"></span>`;
+        if (co.text_found) html += ` <span><span data-i18n="position_prefix">Position:</span> ${co.text_position}</span>`;
+        html += `</li>`;
 
         // Image
-            html += `<li>`;
-            html += `<span data-i18n="${co.image_found ? 'content_order_image_ok' : 'content_order_image_missing'}"></span>`;
-            html += co.image_found ? ` (позиция: ${co.image_position})` : '';
-            html += `</li>`;
+        html += `<li>`;
+        html += `<span data-i18n="${co.image_found ? 'content_order_image_ok' : 'content_order_image_missing'}"></span>`;
+        if (co.image_found) html += ` <span><span data-i18n="position_prefix">Position:</span> ${co.image_position}</span>`;
+        html += `</li>`;
 
         // Script
-            html += `<li>`;
-            html += `<span data-i18n="${co.script_before_content ? 'content_order_script_bad' : 'content_order_script_ok'}"></span>`;
-            html += co.script_position !== null ? ` (позиция: ${co.script_position})` : ` (позиция: неизвестна)`;
-            html += `</li>`;
+        html += `<li>`;
+        html += `<span data-i18n="${co.script_before_content ? 'content_order_script_bad' : 'content_order_script_ok'}"></span>`;
+        html += ` <span>`;
+        if (co.script_position !== null) {
+            html += `<span data-i18n="position_prefix">Position:</span> ${co.script_position}`;
+        } else {
+            html += `<span data-i18n="position_unknown">Position unknown</span>`;
+        }
+        html += `</span></li>`;
+
         html += `</ul></details>`;
-}
+    }
 
 
     if (data.above_the_fold) {

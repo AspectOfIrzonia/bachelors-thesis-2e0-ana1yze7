@@ -41,9 +41,13 @@ def get_languages():
 # ===============================================================================================
 def extract_html(req, method):
     if method == "url":
-        
         url = req.form.get("url")
-        return urlopen(url).read().decode('utf-8')
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()  
+            return response.text 
+        except requests.exceptions.RequestException as e:
+            raise ValueError(f"Error fetching URL: {e}")
 
     elif method == "file":
         file = req.files['file']
@@ -58,8 +62,8 @@ def extract_html(req, method):
                             return f.read()
         else:
             return file.read().decode('utf-8')
-    return None
 
+    return None
 
 # ===============================================================================================
 def precheck_module(html):
@@ -733,7 +737,6 @@ def analyze_illegal_techniques(html):
         r"opacity\s*:\s*0",
         r"font-size\s*:\s*0",
         r"color\s*:\s*white",
-        r"background\s*:\s*white"
     ]
 
     def is_hidden_style(style_str):
@@ -866,7 +869,7 @@ def analyze_load_speed(url):
         total_resource_size = 0
         successful_requests = 0
 
-        for res_url in list(resources)[:30]:  # ограничим до 30 ресурсов
+        for res_url in list(resources)[:200]:
             try:
                 r = requests.get(res_url, stream=True, timeout=5)
                 total_resource_size += int(r.headers.get('Content-Length', 0))
@@ -1015,7 +1018,8 @@ def upload_json():
 # ===============================================================================================
 @app.route('/')
 def index():
-    return render_template('index.html')    
+    is_render = "semehran-petro-diplome.onrender.com" in request.host
+    return render_template("index.html", is_render=is_render)  
 
 if __name__ == '__main__':
     os.makedirs("uploads", exist_ok=True)

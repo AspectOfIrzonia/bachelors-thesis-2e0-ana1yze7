@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <title data-i18n="page_title">SEO Analyzer</title>
@@ -63,6 +63,7 @@
                     <li><label>
                         <input type="checkbox" name="checks" value="precheck" checked /><span data-i18n="precheck_title">precheck_title</span>
                     </label></li>
+                    {% if not is_render %}
                     <li><label>
                         <input type="checkbox" name="checks" value="semantic" checked /><span data-i18n="semantic_title">semantic_title</span>
                     </label>
@@ -78,6 +79,7 @@
                     <li><label>
                         <input type="checkbox" name="checks" value="user-semantic"/><span data-i18n="user_semantic_title">user_semantic_title</span>
                     </label></li>
+                    {% endif %}
                     <li><label>
                         <input type="checkbox" name="checks" value="structure" checked /><span data-i18n="structure_title">structure_title</span>
                     </label></li>

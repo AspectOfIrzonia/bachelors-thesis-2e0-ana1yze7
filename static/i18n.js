@@ -33,7 +33,7 @@ async function loadLanguage(lang) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const langSelector = document.getElementById("language-selector");
-  const currentLang = localStorage.getItem("lang") || "ru";
+  const currentLang = localStorage.getItem("lang") || "en";
 
   const languages = await fetchAvailableLanguages();
   languages.forEach(lang => {

@@ -34,7 +34,7 @@
 
   "result_title": "Заголовок:",
   "result_description": "Опис:",
-  "result_error": "Помилка:",
+
   "analyse_lang": "Мова аналізу:",
   "keyword_count": "Кількість ключових слів:",
   "semantic_keywords": "Ключові слова (топ):",
@@ -131,13 +131,16 @@
 
   "structure_content_order": "Порядок контенту",
   "content_order_h1_ok": "H1 знайдено✅",
-  "content_order_h1_missing": "H1 не знайдено⚠️",
+  "content_order_h1_missing": "H1 не знайдено❗",
   "content_order_text_ok": "Текст знайдено✅",
   "content_order_text_missing": "Текст не знайдено⚠️",
   "content_order_image_ok": "Зображення знайдено✅",
   "content_order_image_missing": "Зображення не знайдено⚠️",
   "content_order_script_bad": "Скрипт розташований перед контентом⚠️",
   "content_order_script_ok": "Скрипт не заважає контенту✅",
+  "position_prefix": "позиція:",
+  "position_unknown": "позиція: невідома",
+
 
   "above_the_fold_title": "Вище згину (Above the Fold)",
   "above_the_fold_h1_ok": "H1 присутній✅",
@@ -167,8 +170,8 @@
   "mobile_viewport_ok": "Meta viewport присутній✅",
   "mobile_viewport_missing": "Meta viewport відсутній❗",
   "mobile_media_ok": "Використовуються CSS @media✅",
-  "mobile_media_missing": "CSS @media відсутні❗",
-  "mobile_fixed_width_bad": "Використовується фіксована ширина блоків❗",
+  "mobile_media_missing": "CSS @media відсутні⚠️",
+  "mobile_fixed_width_bad": "Використовується фіксована ширина блоків⚠️",
   "mobile_fixed_width_ok": "Фіксована ширина не використовується✅",
   "mobile_font_size_bad": "Маленький розмір шрифту⚠️",
   "mobile_font_size_ok": "Розмір шрифту в нормі✅",

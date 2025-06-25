@@ -131,13 +131,16 @@
 
   "structure_content_order": "Content Order",
   "content_order_h1_ok": "H1 found✅",
-  "content_order_h1_missing": "H1 not found⚠️",
+  "content_order_h1_missing": "H1 not found❗",
   "content_order_text_ok": "Text found✅",
   "content_order_text_missing": "Text not found⚠️",
   "content_order_image_ok": "Image found✅",
   "content_order_image_missing": "Image not found⚠️",
   "content_order_script_bad": "Script placed before content⚠️",
   "content_order_script_ok": "Script does not interfere content✅",
+  "position_prefix": "position:",
+  "position_unknown": "position: unknown",
+
 
   "above_the_fold_title": "Above the Fold",
   "above_the_fold_h1_ok": "H1 is present✅",
@@ -167,8 +170,8 @@
   "mobile_viewport_ok": "Meta viewport is present✅",
   "mobile_viewport_missing": "Meta viewport is missing❗",
   "mobile_media_ok": "CSS @media used✅",
-  "mobile_media_missing": "No CSS @media❗",
-  "mobile_fixed_width_bad": "Fixed width blocks used❗",
+  "mobile_media_missing": "No CSS @media⚠️",
+  "mobile_fixed_width_bad": "Fixed width blocks used⚠️",
   "mobile_fixed_width_ok": "No fixed width blocks✅",
   "mobile_font_size_bad": "Font size too small⚠️",
   "mobile_font_size_ok": "Font size is acceptable✅",
