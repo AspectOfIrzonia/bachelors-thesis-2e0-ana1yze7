@@ -36,7 +36,7 @@
   "result_description": "Опис:",
 
   "analyse_lang": "Мова аналізу:",
-  "keyword_count": "Кількість ключових слів:",
+  "keyword_count": "Кількість слів:",
   "semantic_keywords": "Ключові слова (топ):",
   "semantic_no_keywords": "Ключові слова відсутні.❗",
   "semantic_bigrams": "Часті фрази:",

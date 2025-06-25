@@ -36,7 +36,7 @@
   "result_description": "Description:",
 
   "analyse_lang": "Analysis language:",
-  "keyword_count": "Keyword count:",
+  "keyword_count": "W	ord count:",
   "semantic_keywords": "Top keywords:",
   "semantic_no_keywords": "No keywords found.❗",
   "semantic_bigrams": "Frequent phrases:",
@@ -75,7 +75,7 @@
   "structure_head_keywords_ok": "Meta Keywords are presentℹ️",
   "structure_head_keywords_missing": "Meta Keywords are missingℹ️",
   "structure_head_robots_ok": "Meta Robots is present✅",
-  "structure_head_robots_missing": "Meta Robots is missing❗",
+  "structure_head_robots_missing": "Meta Robots is missingℹ️",
   "structure_head_canonical_ok": "Canonical is present✅",
   "structure_head_canonical_missing": "Canonical is missing❗",
   "structure_head_robots_directives": "Meta Robots directivesℹ️",

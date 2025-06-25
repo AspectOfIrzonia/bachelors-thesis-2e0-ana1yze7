@@ -97,21 +97,23 @@ def get_pipeline(lang):
 # Basic analysis function
 def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
     soup = BeautifulSoup(html, "html.parser")
-    elements = soup.find_all(["main", "article", "section", "p", "li", "h1", "h2", "h3", "h4", "h5", "h6"])
-    text = " ".join(el.get_text(separator=" ", strip=True) for el in elements)
 
-    #Clearing text
+    main = soup.find("main")
+    if main:
+        text = main.get_text(separator=" ", strip=True)
+    else:
+        text = soup.get_text(separator=" ", strip=True)
+
     text = text.lower()
     text = re.sub(r"[^a-zA-Zа-яА-ЯёЁіІїЇєЄ0-9\s]", " ", text)
     text = re.sub(r"\d+", "", text)
     text = re.sub(r"\s+", " ", text).strip()
 
-
-    #Detect language if not specified
-    try:
-        lang = detect(text[:200])
-    except:
-        lang = "en"
+    if not lang:
+        try:
+            lang = detect(text[:200])
+        except:
+            lang = "en"
 
     stop_words = get_stopwords(lang)
 
@@ -125,7 +127,6 @@ def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
             "error": f"Ошибка при лемматизации: {str(e)}"
         }
 
-    #Extraction of meaningful lemmas
     CONTENT_POS = {"NOUN", "PROPN", "VERB", "ADJ", "ADV"}
     lemmas = [
         word.lemma.lower()
@@ -134,21 +135,24 @@ def extract_semantics(html, max_words=20, max_bigrams=10, lang=None):
         if word.upos in CONTENT_POS and word.lemma.lower() not in stop_words and len(word.lemma) > 2
     ]
 
-    #Frequency analysis
     word_freq = Counter(lemmas)
     most_common_words = word_freq.most_common(max_words)
 
-    bigrams = zip(lemmas, islice(lemmas, 1, None))
+    bigrams = zip(lemmas, list(lemmas)[1:])
     bigram_freq = Counter([" ".join(pair) for pair in bigrams])
     most_common_bigrams = bigram_freq.most_common(max_bigrams)
 
     return {
         "title": lang.upper(),
-        "description": len(word_freq),
+        "description": sum(word_freq.values()),
         "words": most_common_words,
         "bigrams": most_common_bigrams,
         "s-error": ""
     }
+
+
+
+
 
 # ===============================================================================================
 def compare_with_target_semantics(analysis_result, user_target_keywords):
@@ -219,7 +223,7 @@ def semantics_analys(semantic_result):
             "keywords": [],
             "recommendations": [],
             "summary": {
-                "density_avg": 0,
+                "density_avgdensity_avg": 0,
                 "overused": 0,
                 "underused": 0
             }
